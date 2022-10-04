@@ -1,0 +1,3 @@
+[submodule "cbin/vendor/endianness"]
+	path = cbin/vendor/endianness
+	url = https://github.com/MechSlayer/endianness.git
