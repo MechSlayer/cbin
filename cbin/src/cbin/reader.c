@@ -56,7 +56,10 @@ cbin_err_t cbin_read(cbin_reader_t *reader, void *buffer, size_t size) {
     if (reader->_position + size > reader->_size) {
         return reader->_error = CBIN_ERR_OUT_OF_BOUNDS;
     }
-    memcpy(buffer, (const uint8_t *)reader->_buffer + reader->_position, size);
+    if (CBIN_LIKELY(buffer != NULL)) {
+        memcpy(buffer, (const uint8_t *)reader->_buffer + reader->_position,
+               size);
+    }
     reader->_position += size;
     return CBIN_ERR_OK;
 }
@@ -64,11 +67,11 @@ cbin_err_t cbin_read(cbin_reader_t *reader, void *buffer, size_t size) {
 #ifdef __LITTLE_ENDIAN__
 #    define READ_LE(size, swap) (cbin_read(reader, value, (size) / 8))
 #    define READ_BE(size, swap)                                                \
-        (cbin_read(reader, value, (size) / 8), (*value) = (swap(*value)),                 \
+        (cbin_read(reader, value, (size) / 8), (*value) = (swap(*value)),      \
          cbin_reader_error(reader))
 #elif defined(__BIG_ENDIAN__)
 #    define READ_LE(size, swap)                                                \
-        (cbin_read(reader, value, (size) / 8), (*value) = (swap(*value)),                 \
+        (cbin_read(reader, value, (size) / 8), (*value) = (swap(*value)),      \
          cbin_reader_error(reader))
 #    define READ_BE(size, swap) (cbin_read(reader, value, (size) / 8))
 #else
