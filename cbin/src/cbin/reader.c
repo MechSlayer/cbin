@@ -56,34 +56,45 @@ cbin_err_t cbin_read(cbin_reader_t *reader, void *buffer, size_t size) {
     if (reader->_position + size > reader->_size) {
         return reader->_error = CBIN_ERR_OUT_OF_BOUNDS;
     }
-    memcpy(buffer, (const uint8_t *)reader->_buffer + reader->_position, size);
+    if (CBIN_LIKELY(buffer != NULL)) {
+        memcpy(buffer, (const uint8_t *)reader->_buffer + reader->_position,
+               size);
+    }
     reader->_position += size;
     return CBIN_ERR_OK;
 }
 
 #ifdef __LITTLE_ENDIAN__
-#    define READ_LE(size, swap) (cbin_read(reader, value, (size) / 8))
+#    define READ_LE(size, swap) return cbin_read(reader, value, (size) / 8)
 #    define READ_BE(size, swap)                                                \
-        (cbin_read(reader, value, (size) / 8), (*value) = (swap(*value)),                 \
-         cbin_reader_error(reader))
+        cbin_read(reader, value, (size) / 8);                                  \
+        if (CBIN_LIKELY(value != NULL)) {                                      \
+            *value = swap(*value);                                             \
+        }                                                                      \
+        return cbin_reader_error(reader)
+
 #elif defined(__BIG_ENDIAN__)
 #    define READ_LE(size, swap)                                                \
-        (cbin_read(reader, value, (size) / 8), (*value) = (swap(*value)),                 \
-         cbin_reader_error(reader))
-#    define READ_BE(size, swap) (cbin_read(reader, value, (size) / 8))
+        cbin_read(reader, value, (size) / 8);                                  \
+        if (CBIN_LIKELY(value != NULL)) {                                      \
+            *value = swap(*value);                                             \
+        }                                                                      \
+        return cbin_reader_error(reader)
+
+#    define READ_BE(size, swap) return cbin_read(reader, value, (size) / 8)
 #else
 #    error "Unknown endianness"
-#    define READ_LE(size, swap) (CBIN_ERR_OK)
-#    define READ_BE(size, swap) (CBIN_ERR_OK)
+#    define READ_LE(size, swap) return (CBIN_ERR_OK)
+#    define READ_BE(size, swap) return (CBIN_ERR_OK)
 #endif
 
 #ifdef __LITTLE_ENDIAN__
-#    define READ_VALUE(name) (cbin_read_##name##_le(reader, value))
+#    define READ_VALUE(name) return (cbin_read_##name##_le(reader, value))
 #elif defined(__BIG_ENDIAN__)
-#    define READ_VALUE(name) (cbin_read_##name##_be(reader, value))
+#    define READ_VALUE(name) return (cbin_read_##name##_be(reader, value))
 #else
 #    error "Unknown endianness"
-#    define READ_VALUE(name) (CBIN_ERR_OK)
+#    define READ_VALUE(name) return (CBIN_ERR_OK)
 #endif
 
 cbin_err_t cbin_read_u8(cbin_reader_t *reader, uint8_t *value) {
@@ -91,29 +102,29 @@ cbin_err_t cbin_read_u8(cbin_reader_t *reader, uint8_t *value) {
 }
 
 cbin_err_t cbin_read_u16(cbin_reader_t *reader, uint16_t *value) {
-    return READ_VALUE(u16);
+    READ_VALUE(u16);
 }
 cbin_err_t cbin_read_u16_le(cbin_reader_t *reader, uint16_t *value) {
-    return READ_LE(16, bswap16);
+    READ_LE(16, bswap16);
 }
 cbin_err_t cbin_read_u16_be(cbin_reader_t *reader, uint16_t *value) {
-    return READ_BE(16, bswap16);
+    READ_BE(16, bswap16);
 }
 
 cbin_err_t cbin_read_u32(cbin_reader_t *reader, uint32_t *value) {
-    return READ_VALUE(u32);
+    READ_VALUE(u32);
 }
 cbin_err_t cbin_read_u32_le(cbin_reader_t *reader, uint32_t *value) {
-    return READ_LE(32, bswap32);
+    READ_LE(32, bswap32);
 }
 cbin_err_t cbin_read_u32_be(cbin_reader_t *reader, uint32_t *value) {
-    return READ_BE(32, bswap32);
+    READ_BE(32, bswap32);
 }
 cbin_err_t cbin_read_u64(cbin_reader_t *reader, uint64_t *value) {
-    return READ_VALUE(u64);
+    READ_VALUE(u64);
 }
 cbin_err_t cbin_read_u64_le(cbin_reader_t *reader, uint64_t *value) {
-    return READ_LE(64, bswap64);
+    READ_LE(64, bswap64);
 }
 cbin_err_t cbin_read_u64_be(cbin_reader_t *reader, uint64_t *value) {
     return READ_BE(64, bswap64);
@@ -122,49 +133,49 @@ cbin_err_t cbin_read_i8(cbin_reader_t *reader, int8_t *value) {
     return cbin_read(reader, value, sizeof(uint8_t));
 }
 cbin_err_t cbin_read_i16(cbin_reader_t *reader, int16_t *value) {
-    return READ_VALUE(i16);
+    READ_VALUE(i16);
 }
 cbin_err_t cbin_read_i16_le(cbin_reader_t *reader, int16_t *value) {
-    return READ_LE(16, bswap16);
+    READ_LE(16, bswap16);
 }
 cbin_err_t cbin_read_i16_be(cbin_reader_t *reader, int16_t *value) {
-    return READ_BE(16, bswap16);
+    READ_BE(16, bswap16);
 }
 cbin_err_t cbin_read_i32(cbin_reader_t *reader, int32_t *value) {
-    return READ_VALUE(i32);
+    READ_VALUE(i32);
 }
 cbin_err_t cbin_read_i32_le(cbin_reader_t *reader, int32_t *value) {
-    return READ_LE(32, bswap32);
+    READ_LE(32, bswap32);
 }
 cbin_err_t cbin_read_i32_be(cbin_reader_t *reader, int32_t *value) {
-    return READ_BE(32, bswap32);
+    READ_BE(32, bswap32);
 }
 cbin_err_t cbin_read_i64(cbin_reader_t *reader, int64_t *value) {
-    return READ_VALUE(i64);
+    READ_VALUE(i64);
 }
 cbin_err_t cbin_read_i64_le(cbin_reader_t *reader, int64_t *value) {
-    return READ_LE(64, bswap64);
+    READ_LE(64, bswap64);
 }
 cbin_err_t cbin_read_i64_be(cbin_reader_t *reader, int64_t *value) {
-    return READ_BE(64, bswap64);
+    READ_BE(64, bswap64);
 }
 cbin_err_t cbin_read_f32(cbin_reader_t *reader, float *value) {
-    return READ_VALUE(f32);
+    READ_VALUE(f32);
 }
 cbin_err_t cbin_read_f32_le(cbin_reader_t *reader, float *value) {
-    return READ_LE(32, bswapf);
+    READ_LE(32, bswapf);
 }
 cbin_err_t cbin_read_f32_be(cbin_reader_t *reader, float *value) {
-    return READ_BE(32, bswapf);
+    READ_BE(32, bswapf);
 }
 cbin_err_t cbin_read_f64(cbin_reader_t *reader, double *value) {
-    return READ_VALUE(f64);
+    READ_VALUE(f64);
 }
 cbin_err_t cbin_read_f64_le(cbin_reader_t *reader, double *value) {
-    return READ_LE(64, bswapd);
+    READ_LE(64, bswapd);
 }
 cbin_err_t cbin_read_f64_be(cbin_reader_t *reader, double *value) {
-    return READ_BE(64, bswapd);
+    READ_BE(64, bswapd);
 }
 
 cbin_err_t cbin_read_bool(cbin_reader_t *reader, bool *value) {

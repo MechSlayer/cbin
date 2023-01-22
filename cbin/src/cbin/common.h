@@ -39,12 +39,18 @@
 #    define CBIN_HEADER_END
 #endif
 
-
 #define CBIN_ERR_OK 0
 #define CBIN_ERR_FAILED 1
 #define CBIN_ERR_OUT_OF_BOUNDS 2
 #define CBIN_ERR_OUT_OF_MEMORY 3
 
+#if defined(__clang__) || defined(__GNUC__)
+#    define CBIN_LIKELY(x) __builtin_expect(!!(x), 1)
+#    define CBIN_UNLIKELY(x) __builtin_expect(!!(x), 0)
+#else
+#    define CBIN_LIKELY(x) (x)
+#    define CBIN_UNLIKELY(x) (x)
+#endif
 
 typedef int cbin_err_t;
 
