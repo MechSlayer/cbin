@@ -82,37 +82,29 @@ cbin_err_t cbin_read(cbin_reader_t *reader, void *buffer, size_t size);
 
 cbin_err_t cbin_read_u8(cbin_reader_t *reader, uint8_t *value);
 
-cbin_err_t cbin_read_u16(cbin_reader_t *reader, uint16_t *value);
 cbin_err_t cbin_read_u16_le(cbin_reader_t *reader, uint16_t *value);
 cbin_err_t cbin_read_u16_be(cbin_reader_t *reader, uint16_t *value);
 
-cbin_err_t cbin_read_u32(cbin_reader_t *reader, uint32_t *value);
 cbin_err_t cbin_read_u32_le(cbin_reader_t *reader, uint32_t *value);
 cbin_err_t cbin_read_u32_be(cbin_reader_t *reader, uint32_t *value);
 
-cbin_err_t cbin_read_u64(cbin_reader_t *reader, uint64_t *value);
 cbin_err_t cbin_read_u64_le(cbin_reader_t *reader, uint64_t *value);
 cbin_err_t cbin_read_u64_be(cbin_reader_t *reader, uint64_t *value);
 
 cbin_err_t cbin_read_i8(cbin_reader_t *reader, int8_t *value);
 
-cbin_err_t cbin_read_i16(cbin_reader_t *reader, int16_t *value);
 cbin_err_t cbin_read_i16_le(cbin_reader_t *reader, int16_t *value);
 cbin_err_t cbin_read_i16_be(cbin_reader_t *reader, int16_t *value);
 
-cbin_err_t cbin_read_i32(cbin_reader_t *reader, int32_t *value);
 cbin_err_t cbin_read_i32_le(cbin_reader_t *reader, int32_t *value);
 cbin_err_t cbin_read_i32_be(cbin_reader_t *reader, int32_t *value);
 
-cbin_err_t cbin_read_i64(cbin_reader_t *reader, int64_t *value);
 cbin_err_t cbin_read_i64_le(cbin_reader_t *reader, int64_t *value);
 cbin_err_t cbin_read_i64_be(cbin_reader_t *reader, int64_t *value);
 
-cbin_err_t cbin_read_f32(cbin_reader_t *reader, float *value);
 cbin_err_t cbin_read_f32_le(cbin_reader_t *reader, float *value);
 cbin_err_t cbin_read_f32_be(cbin_reader_t *reader, float *value);
 
-cbin_err_t cbin_read_f64(cbin_reader_t *reader, double *value);
 cbin_err_t cbin_read_f64_le(cbin_reader_t *reader, double *value);
 cbin_err_t cbin_read_f64_be(cbin_reader_t *reader, double *value);
 

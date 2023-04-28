@@ -106,35 +106,27 @@ cbin_err_t cbin_write(cbin_writer_t *writer, const void *data, size_t size);
 cbin_err_t cbin_write_u8(cbin_writer_t *writer, uint8_t value);
 cbin_err_t cbin_write_i8(cbin_writer_t *writer, int8_t value);
 
-cbin_err_t cbin_write_u16(cbin_writer_t *writer, uint16_t value);
 cbin_err_t cbin_write_u16_le(cbin_writer_t *writer, uint16_t value);
 cbin_err_t cbin_write_u16_be(cbin_writer_t *writer, uint16_t value);
 
-cbin_err_t cbin_write_i16(cbin_writer_t *writer, int16_t value);
 cbin_err_t cbin_write_i16_le(cbin_writer_t *writer, int16_t value);
 cbin_err_t cbin_write_i16_be(cbin_writer_t *writer, int16_t value);
 
-cbin_err_t cbin_write_u32(cbin_writer_t *writer, uint32_t value);
 cbin_err_t cbin_write_u32_le(cbin_writer_t *writer, uint32_t value);
 cbin_err_t cbin_write_u32_be(cbin_writer_t *writer, uint32_t value);
 
-cbin_err_t cbin_write_i32(cbin_writer_t *writer, int32_t value);
 cbin_err_t cbin_write_i32_le(cbin_writer_t *writer, int32_t value);
 cbin_err_t cbin_write_i32_be(cbin_writer_t *writer, int32_t value);
 
-cbin_err_t cbin_write_u64(cbin_writer_t *writer, uint64_t value);
 cbin_err_t cbin_write_u64_le(cbin_writer_t *writer, uint64_t value);
 cbin_err_t cbin_write_u64_be(cbin_writer_t *writer, uint64_t value);
 
-cbin_err_t cbin_write_i64(cbin_writer_t *writer, int64_t value);
 cbin_err_t cbin_write_i64_le(cbin_writer_t *writer, int64_t value);
 cbin_err_t cbin_write_i64_be(cbin_writer_t *writer, int64_t value);
 
-cbin_err_t cbin_write_f32(cbin_writer_t *writer, float value);
 cbin_err_t cbin_write_f32_le(cbin_writer_t *writer, float value);
 cbin_err_t cbin_write_f32_be(cbin_writer_t *writer, float value);
 
-cbin_err_t cbin_write_f64(cbin_writer_t *writer, double value);
 cbin_err_t cbin_write_f64_le(cbin_writer_t *writer, double value);
 cbin_err_t cbin_write_f64_be(cbin_writer_t *writer, double value);
 

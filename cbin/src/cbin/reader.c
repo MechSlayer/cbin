@@ -88,22 +88,10 @@ cbin_err_t cbin_read(cbin_reader_t *reader, void *buffer, size_t size) {
 #    define READ_BE(size, swap) return (CBIN_ERR_OK)
 #endif
 
-#ifdef __LITTLE_ENDIAN__
-#    define READ_VALUE(name) return (cbin_read_##name##_le(reader, value))
-#elif defined(__BIG_ENDIAN__)
-#    define READ_VALUE(name) return (cbin_read_##name##_be(reader, value))
-#else
-#    error "Unknown endianness"
-#    define READ_VALUE(name) return (CBIN_ERR_OK)
-#endif
-
 cbin_err_t cbin_read_u8(cbin_reader_t *reader, uint8_t *value) {
     return cbin_read(reader, value, sizeof(uint8_t));
 }
 
-cbin_err_t cbin_read_u16(cbin_reader_t *reader, uint16_t *value) {
-    READ_VALUE(u16);
-}
 cbin_err_t cbin_read_u16_le(cbin_reader_t *reader, uint16_t *value) {
     READ_LE(16, bswap16);
 }
@@ -111,18 +99,13 @@ cbin_err_t cbin_read_u16_be(cbin_reader_t *reader, uint16_t *value) {
     READ_BE(16, bswap16);
 }
 
-cbin_err_t cbin_read_u32(cbin_reader_t *reader, uint32_t *value) {
-    READ_VALUE(u32);
-}
 cbin_err_t cbin_read_u32_le(cbin_reader_t *reader, uint32_t *value) {
     READ_LE(32, bswap32);
 }
 cbin_err_t cbin_read_u32_be(cbin_reader_t *reader, uint32_t *value) {
     READ_BE(32, bswap32);
 }
-cbin_err_t cbin_read_u64(cbin_reader_t *reader, uint64_t *value) {
-    READ_VALUE(u64);
-}
+
 cbin_err_t cbin_read_u64_le(cbin_reader_t *reader, uint64_t *value) {
     READ_LE(64, bswap64);
 }
@@ -132,45 +115,35 @@ cbin_err_t cbin_read_u64_be(cbin_reader_t *reader, uint64_t *value) {
 cbin_err_t cbin_read_i8(cbin_reader_t *reader, int8_t *value) {
     return cbin_read(reader, value, sizeof(uint8_t));
 }
-cbin_err_t cbin_read_i16(cbin_reader_t *reader, int16_t *value) {
-    READ_VALUE(i16);
-}
+
 cbin_err_t cbin_read_i16_le(cbin_reader_t *reader, int16_t *value) {
     READ_LE(16, bswap16);
 }
 cbin_err_t cbin_read_i16_be(cbin_reader_t *reader, int16_t *value) {
     READ_BE(16, bswap16);
 }
-cbin_err_t cbin_read_i32(cbin_reader_t *reader, int32_t *value) {
-    READ_VALUE(i32);
-}
+
 cbin_err_t cbin_read_i32_le(cbin_reader_t *reader, int32_t *value) {
     READ_LE(32, bswap32);
 }
 cbin_err_t cbin_read_i32_be(cbin_reader_t *reader, int32_t *value) {
     READ_BE(32, bswap32);
 }
-cbin_err_t cbin_read_i64(cbin_reader_t *reader, int64_t *value) {
-    READ_VALUE(i64);
-}
+
 cbin_err_t cbin_read_i64_le(cbin_reader_t *reader, int64_t *value) {
     READ_LE(64, bswap64);
 }
 cbin_err_t cbin_read_i64_be(cbin_reader_t *reader, int64_t *value) {
     READ_BE(64, bswap64);
 }
-cbin_err_t cbin_read_f32(cbin_reader_t *reader, float *value) {
-    READ_VALUE(f32);
-}
+
 cbin_err_t cbin_read_f32_le(cbin_reader_t *reader, float *value) {
     READ_LE(32, bswapf);
 }
 cbin_err_t cbin_read_f32_be(cbin_reader_t *reader, float *value) {
     READ_BE(32, bswapf);
 }
-cbin_err_t cbin_read_f64(cbin_reader_t *reader, double *value) {
-    READ_VALUE(f64);
-}
+
 cbin_err_t cbin_read_f64_le(cbin_reader_t *reader, double *value) {
     READ_LE(64, bswapd);
 }

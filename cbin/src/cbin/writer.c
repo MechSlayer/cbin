@@ -57,7 +57,8 @@ cbin_err_t cbin_writer_seek(cbin_writer_t *writer, size_t position) {
 
 cbin_err_t cbin_writer_reserve(cbin_writer_t *writer, size_t count,
                                void **out) {
-    if (writer->_error) return writer->_error;
+    if (writer->_error)
+        return writer->_error;
     if (writer->_position + count > writer->_capacity) {
         if (!writer->_owns_buffer)
             return writer->_error = CBIN_ERR_OUT_OF_MEMORY;
@@ -128,87 +129,62 @@ cbin_err_t cbin_write(cbin_writer_t *writer, const void *data, size_t size) {
 #    define WRITE_BE(size, swap) (cbin_write(writer, &value, (size) / 8))
 #endif
 
-#ifdef __LITTLE_ENDIAN__
-#    define WRITE_VALUE(name) (cbin_write_##name##_le(writer, value))
-#elif defined(__BIG_ENDIAN__)
-#    define WRITE_VALUE(name) (cbin_write_##name##_be(writer, value))
-#else
-#    error "Unknown endianness"
-#    define WRITE_VALUE(name) (cbin_write_##name##_le(writer, value))
-#endif
-
 cbin_err_t cbin_write_u8(cbin_writer_t *writer, uint8_t value) {
     return cbin_write(writer, &value, sizeof(value));
 }
 cbin_err_t cbin_write_i8(cbin_writer_t *writer, int8_t value) {
     return cbin_write(writer, &value, sizeof(value));
 }
-cbin_err_t cbin_write_u16(cbin_writer_t *writer, uint16_t value) {
-    return WRITE_VALUE(u16);
-}
+
 cbin_err_t cbin_write_u16_le(cbin_writer_t *writer, uint16_t value) {
     return WRITE_LE(16, bswap16);
 }
 cbin_err_t cbin_write_u16_be(cbin_writer_t *writer, uint16_t value) {
     return WRITE_BE(16, bswap16);
 }
-cbin_err_t cbin_write_i16(cbin_writer_t *writer, int16_t value) {
-    return WRITE_VALUE(i16);
-}
+
 cbin_err_t cbin_write_i16_le(cbin_writer_t *writer, int16_t value) {
     return WRITE_LE(16, bswap16);
 }
 cbin_err_t cbin_write_i16_be(cbin_writer_t *writer, int16_t value) {
     return WRITE_BE(16, bswap16);
 }
-cbin_err_t cbin_write_u32(cbin_writer_t *writer, uint32_t value) {
-    return WRITE_VALUE(u32);
-}
+
 cbin_err_t cbin_write_u32_le(cbin_writer_t *writer, uint32_t value) {
     return WRITE_LE(32, bswap32);
 }
 cbin_err_t cbin_write_u32_be(cbin_writer_t *writer, uint32_t value) {
     return WRITE_BE(32, bswap32);
 }
-cbin_err_t cbin_write_i32(cbin_writer_t *writer, int32_t value) {
-    return WRITE_VALUE(i32);
-}
+
 cbin_err_t cbin_write_i32_le(cbin_writer_t *writer, int32_t value) {
     return WRITE_LE(32, bswap32);
 }
 cbin_err_t cbin_write_i32_be(cbin_writer_t *writer, int32_t value) {
     return WRITE_BE(32, bswap32);
 }
-cbin_err_t cbin_write_u64(cbin_writer_t *writer, uint64_t value) {
-    return WRITE_VALUE(u64);
-}
+
 cbin_err_t cbin_write_u64_le(cbin_writer_t *writer, uint64_t value) {
     return WRITE_LE(64, bswap64);
 }
 cbin_err_t cbin_write_u64_be(cbin_writer_t *writer, uint64_t value) {
     return WRITE_BE(64, bswap64);
 }
-cbin_err_t cbin_write_i64(cbin_writer_t *writer, int64_t value) {
-    return WRITE_VALUE(i64);
-}
+
 cbin_err_t cbin_write_i64_le(cbin_writer_t *writer, int64_t value) {
     return WRITE_LE(64, bswap64);
 }
 cbin_err_t cbin_write_i64_be(cbin_writer_t *writer, int64_t value) {
     return WRITE_BE(64, bswap64);
 }
-cbin_err_t cbin_write_f32(cbin_writer_t *writer, float value) {
-    return WRITE_VALUE(f32);
-}
+
 cbin_err_t cbin_write_f32_le(cbin_writer_t *writer, float value) {
     return WRITE_LE(32, bswapf);
 }
 cbin_err_t cbin_write_f32_be(cbin_writer_t *writer, float value) {
     return WRITE_BE(32, bswapf);
 }
-cbin_err_t cbin_write_f64(cbin_writer_t *writer, double value) {
-    return WRITE_VALUE(f64);
-}
+
 cbin_err_t cbin_write_f64_le(cbin_writer_t *writer, double value) {
     return WRITE_LE(64, bswapd);
 }
